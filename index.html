@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Penguin Species Explorer Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <main class="dashboard dashboard-three-zone" aria-label="Nautilus Arctic Circle penguin explorer dashboard">
+    <section class="left-mission" aria-label="Mission controls and investigation scanner">
+      <div class="top-mission-grid">
+        <section class="live-explorer-panel" aria-label="Antarctic live camera, location map, clock and compass">
+          <header class="live-panel-header">
+            <h1>Antarctica Live Camera</h1>
+            <p>The camera is caught in a blizzard! You can just make out the shadows of three penguins, but the picture is too blurry to identify which species they are.</p>
+          </header>
+
+          <div class="live-panel-body">
+            <article class="live-camera-side" aria-label="Live Antarctic camera view">
+              <div class="photo-porthole">
+                <img class="porthole-photo" src="img/antarctic.jpg" alt="Live Antarctic camera view" />
+                <div class="photo-dim"></div>
+                <div class="blizzard-fog"></div>
+                <div class="snowflake-field"></div>
+                <!-- <div class="whiteout-glare"></div> -->
+                <span class="live-pill" aria-label="Live camera status"><span class="record-dot" aria-hidden="true"></span>Live</span>
+                <div class="camera-data-strip" aria-label="Live camera location and time">
+                  <span>LAT -65.704056</span>
+                  <span>LON -65.991219</span>
+                  <span id="cameraTime">--:--:--</span>
+                </div>
+              </div>
+            </article>
+
+            <aside class="explorer-desk-side" aria-label="Antarctic map and explorer tools">
+              <div class="desk-map-card" style="--pin-x: 15%; --pin-y: 35%;">
+                <img class="map-image" src="img/antarctica-map.png" alt="Map of Antarctica" />
+                <img class="map-pin" src="img/pin.png" alt="" aria-hidden="true" />
+              </div>
+
+              <div class="explorer-tools" aria-label="Explorer tools">
+<!--                 <img class="explorer-tool rope" src="img/climbing-rope.png" alt="Climbing rope">
+                <img class="explorer-tool ice-pick" src="img/ice-pick.png" alt="Ice pick"> -->
+                <img class="explorer-tool post-it" src="img/post-it.png" alt="Post-It">
+                <img class="explorer-tool compass" src="img/compass.png" alt="Compass">
+              </div>
+            </aside>
+
+          </div>
+        </section>
+
+        <aside class="captain-desk" aria-label="Captain's desk with mystery case files">
+          <div class="deck-header">
+            <h1>Captain's Case Files</h1>
+            <p class="deck-intro">Even though the image is blurry, the captain was still able to collect some measurements from the penguins. Use the clues on each case file to help identify the mystery penguins.</p>
+          </div>
+
+          <section class="desk-zone" aria-label="Three mystery penguin cards on the desk">
+            <div class="desk-title">
+              <span>Captain’s mystery case files</span>
+              <small>tap to reveal clues</small>
+            </div>
+            <div id="penguinCards" class="penguin-cards" aria-label="Mystery penguin cards"></div>
+            <div class="case-report-action">
+              <button type="button" id="caseReportButton">Report measurements to the scanner</button>
+            </div>
+          </section>
+
+          <section class="case-board" aria-live="polite" aria-label="Selected penguin clue board">
+            <p class="case-kicker">Case detail</p>
+            <h2 id="selectedCaseName">Pick a card</h2>
+            <div id="selectedCaseDetails" class="case-details"></div>
+          </section>
+        </aside>
+      </div>
+
+      <section class="stage" aria-label="Large interactive investigation scanner screen">
+        <div class="scanner-workspace">
+          <section class="canvas-card" aria-describedby="dashboardHint">
+
+            <h2>Penguin Data from the 2023 Expedition</h2>
+            <p class="subtitle">During the last expedition, explorers collected the species and measurements of many penguins. The scanner compares your mystery penguin’s clues with those records to predict its most likely species. Look at how similar your penguin is to the predicted species. Can you understand why the scanner made that prediction?</p>
+
+            <p id="dashboardHint" class="sr-only">This chart lets you enter bill length, bill depth, flipper length, body mass and sex. The prediction panel gives the most likely penguin species.</p>
+            <div id="chart"></div>
+            <div id="errorMessage" role="alert"></div>
+          </section>
+
+          <aside class="prediction-panel" aria-label="Prediction controls and result">
+            <p class="prediction-kicker">Scanner result</p>
+            <h3>Species prediction</h3>
+            <p>Press the button after adding clues to compare your mystery penguin with the records.</p>
+            <button type="button" id="predictionButton">Guess species</button>
+            <div id="predictionResults" class="prediction-results" aria-live="polite"></div>
+          </aside>
+        </div>
+      </section>
+    </section>
+
+    <aside class="species-wall" aria-label="Pinned penguin pictures, species schema, and mission steps">
+
+      <section class="species-reference-board" aria-label="Pinned pictures and schema of penguin species">
+        <div class="schema-title wall-title">
+          <h2>Species Information</h2>
+          <small>These are the clues we know about each penguin species. Match the colours here with the graph to help identify the mystery penguin.</small>
+        </div>
+
+        <div class="species-pins">
+          <article class="species-pin adelie-card" style="--species-colour: #4E79A7;" aria-label="Adélie penguin information. Blue marker matches the graph.">
+            <!-- <span class="pin" aria-hidden="true"></span> -->
+            <img class="species-photo" src="img/adelie-penguin.jpg" alt="Adélie penguin walking on snow" />
+            <div class="species-copy">
+              <h3><mark>Adélie</mark></h3>
+              <p>Adélie penguins are bold little explorers that travel across sea ice to hunt. They often slide on their bellies to save energy.</p>
+              <div class="schema-ruler" aria-label="Adélie clues">
+                <span>shorter beak</span><span>lighter body</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="species-pin chinstrap-card" style="--species-colour: #59A14F;" aria-label="Chinstrap penguin information. Orange marker matches the graph.">
+            <!-- <span class="pin" aria-hidden="true"></span> -->
+            <img class="species-photo" src="img/chinstrap-penguin.jpg" alt="Chinstrap penguin standing on snow" />
+            <div class="species-copy">
+              <h3><mark>Chinstrap</mark></h3>
+              <p>Chinstrap penguins are very social and live in huge, loud groups. They are strong climbers and can nest on steep, rocky places.</p>
+              <div class="schema-ruler" aria-label="Chinstrap clues">
+                <span>longer beak</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="species-pin gentoo-card" style="--species-colour: #E15759;" aria-label="Gentoo penguin information. Red marker matches the graph.">
+            <!-- <span class="pin" aria-hidden="true"></span> -->
+            <img class="species-photo" src="img/gentoo-penguin.jpg" alt="Gentoo penguin standing near ice and water" />
+            <div class="species-copy">
+              <h3><mark>Gentoo</mark></h3>
+              <p>Gentoo penguins are some of the fastest penguin swimmers. They often search for food closer to shore than other penguins.</p>
+              <div class="schema-ruler" aria-label="Gentoo clues">
+                <span>long flippers</span><span>heavier body</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="species-pin generic-picture-card" style="--species-colour: #6C8EA4;" aria-label="Penguin measurement picture guide.">
+            <p class="generic-caption">Captain’s note: Penguin measurements</p>
+            <img class="generic-measurement-photo" src="img/penguin-measurements-guide.png" alt="Penguin measurement guide showing flipper length, bill length, and bill depth" />
+            <!-- <p class="generic-caption">Measurement guide</p> -->
+          </article>
+        </div>
+      </section>
+    </aside>
+  </main>
+  <script>
+    const field = document.querySelector(".snowflake-field");
+    const flakeCount = 110;
+
+    for (let i = 0; i < flakeCount; i++) {
+      const flake = document.createElement("span");
+      flake.className = "snowflake";
+
+      flake.style.setProperty("--x", `${rand(-5, 105)}%`);
+      flake.style.setProperty("--y", `${rand(-10, 100)}%`);
+      flake.style.setProperty("--size", `${rand(3, 8)}px`);
+      flake.style.setProperty("--opacity", rand(0.25, 0.9).toFixed(2));
+      flake.style.setProperty("--blur", `${rand(0, 1.8).toFixed(1)}px`);
+      flake.style.setProperty("--speed", `${rand(0.2, 0.5).toFixed(2)}s`);
+      flake.style.setProperty("--drift", `${rand(-90, 90)}px`);
+
+      field.appendChild(flake);
+    }
+
+    function rand(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+  </script>
+  <script>
+      function updateAntarcticTime() {
+      const timeOptions = {
+        timeZone: "Antarctica/Rothera",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      };
+
+      const dateOptions = {
+        timeZone: "Antarctica/Rothera",
+        weekday: "short",
+        day: "2-digit",
+        month: "short"
+      };
+
+      const time = new Intl.DateTimeFormat("en-GB", timeOptions).format(new Date());
+      const date = new Intl.DateTimeFormat("en-GB", dateOptions).format(new Date());
+
+      const antarcticTimeEl = document.querySelector("#antarcticTime");
+      const cameraTimeEl = document.querySelector("#cameraTime");
+
+      if (antarcticTimeEl) {
+        antarcticTimeEl.textContent = time;
+      }
+
+      if (cameraTimeEl) {
+        cameraTimeEl.textContent = `${date} · ${time}`;
+      }
+    }
+
+    updateAntarcticTime();
+    setInterval(updateAntarcticTime, 1000);
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
