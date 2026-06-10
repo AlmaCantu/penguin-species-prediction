@@ -63,9 +63,9 @@
               <small>tap to reveal clues</small>
             </div>
             <div id="penguinCards" class="penguin-cards" aria-label="Mystery penguin cards"></div>
-            <div class="case-report-action">
+            <!-- <div class="case-report-action">
               <button type="button" id="caseReportButton">Report measurements to the scanner</button>
-            </div>
+            </div> -->
           </section>
 
           <section class="case-board" aria-live="polite" aria-label="Selected penguin clue board">
@@ -80,7 +80,7 @@
         <div class="scanner-workspace">
           <section class="canvas-card" aria-describedby="dashboardHint">
 
-            <h2>Penguin Data from the 2023 Expedition</h2>
+            <h2>Penguin Data from the 2025 Expedition</h2>
             <p class="subtitle">During the last expedition, explorers collected the species and measurements of many penguins. The scanner compares your mystery penguin’s clues with those records to predict its most likely species. Look at how similar your penguin is to the predicted species. Can you understand why the scanner made that prediction?</p>
 
             <p id="dashboardHint" class="sr-only">This chart lets you enter bill length, bill depth, flipper length, body mass and sex. The prediction panel gives the most likely penguin species.</p>
@@ -93,7 +93,9 @@
             <h3>Species prediction</h3>
             <p>Press the button after adding clues to compare your mystery penguin with the records.</p>
             <button type="button" id="predictionButton">Guess species</button>
+            <p id="predictionSummary" class="prediction-summary" aria-live="polite">The selected penguin is most likely…</p>
             <div id="predictionResults" class="prediction-results" aria-live="polite"></div>
+            <p class="prediction-next-step">Now look back at the last expedition data. Which clues helped the scanner make this guess? Tap a clue label on the chart to add it to the species information.</p>
           </aside>
         </div>
       </section>
@@ -115,7 +117,6 @@
               <h3><mark>Adélie</mark></h3>
               <p>Adélie penguins are bold little explorers that travel across sea ice to hunt. They often slide on their bellies to save energy.</p>
               <div class="schema-ruler" aria-label="Adélie clues">
-                <span>shorter beak</span><span>lighter body</span>
               </div>
             </div>
           </article>
@@ -127,7 +128,6 @@
               <h3><mark>Chinstrap</mark></h3>
               <p>Chinstrap penguins are very social and live in huge, loud groups. They are strong climbers and can nest on steep, rocky places.</p>
               <div class="schema-ruler" aria-label="Chinstrap clues">
-                <span>longer beak</span>
               </div>
             </div>
           </article>
@@ -139,7 +139,6 @@
               <h3><mark>Gentoo</mark></h3>
               <p>Gentoo penguins are some of the fastest penguin swimmers. They often search for food closer to shore than other penguins.</p>
               <div class="schema-ruler" aria-label="Gentoo clues">
-                <span>long flippers</span><span>heavier body</span>
               </div>
             </div>
           </article>
