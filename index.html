@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Penguin Species Explorer Dashboard</title>
+  <title>Penguin Species Explorer Dashboard — 4096 × 2160</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
@@ -13,8 +13,9 @@
       <div class="top-mission-grid">
         <section class="live-explorer-panel" aria-label="Antarctic live camera, location map, clock and compass">
           <header class="live-panel-header">
+            <p class="light-kicker">Step 1 - Observe penguins on a live cam</p>
             <h1>Antarctica Live Camera</h1>
-            <p>The camera is caught in a blizzard! You can just make out the shadows of three penguins, but the picture is too blurry to identify which species they are.</p>
+            <p class="deck-intro">The camera is caught in a blizzard! You can just make out the shadows of three penguins, but the picture is too blurry to identify which species they are.</p>
           </header>
 
           <div class="live-panel-body">
@@ -35,7 +36,7 @@
             </article>
 
             <aside class="explorer-desk-side" aria-label="Antarctic map and explorer tools">
-              <div class="desk-map-card" style="--pin-x: 15%; --pin-y: 35%;">
+              <div class="desk-map-card" style="--pin-x: 19%; --pin-y: 35%;">
                 <img class="map-image" src="img/antarctica-map.png" alt="Map of Antarctica" />
                 <img class="map-pin" src="img/pin.png" alt="" aria-hidden="true" />
               </div>
@@ -53,6 +54,7 @@
 
         <aside class="captain-desk" aria-label="Captain's desk with mystery case files">
           <div class="deck-header">
+            <p class="light-kicker">Step 3 - Examine penguins details</p>
             <h1>Captain's Case Files</h1>
             <p class="deck-intro">Even though the image is blurry, the captain was still able to collect some measurements from the penguins. Use the clues on each case file to help identify the mystery penguins.</p>
           </div>
@@ -60,7 +62,7 @@
           <section class="desk-zone" aria-label="Three mystery penguin cards on the desk">
             <div class="desk-title">
               <span>Captain’s mystery case files</span>
-              <small>tap to reveal clues</small>
+              <!-- <small>tap to select a case</small> -->
             </div>
             <div id="penguinCards" class="penguin-cards" aria-label="Mystery penguin cards"></div>
             <!-- <div class="case-report-action">
@@ -79,6 +81,7 @@
       <section class="stage" aria-label="Large interactive investigation scanner screen">
         <div class="scanner-workspace">
           <section class="canvas-card" aria-describedby="dashboardHint">
+            <p class="prediction-kicker">Step 4 - Review previous exploration data</p>
 
             <h2>Penguin Data from the 2025 Expedition</h2>
             <p class="subtitle">During the last expedition, explorers collected the species and measurements of many penguins. The scanner compares your mystery penguin’s clues with those records to predict its most likely species. Look at how similar your penguin is to the predicted species. Can you understand why the scanner made that prediction?</p>
@@ -89,12 +92,13 @@
           </section>
 
           <aside class="prediction-panel" aria-label="Prediction controls and result">
-            <p class="prediction-kicker">Scanner result</p>
-            <h3>Species prediction</h3>
+            <p class="prediction-kicker">Step 5 - Make species prediciton</p>
+            <h3>Species scanner</h3>
             <p>Press the button after adding clues to compare your mystery penguin with the records.</p>
             <button type="button" id="predictionButton">Guess species</button>
             <p id="predictionSummary" class="prediction-summary" aria-live="polite">The selected penguin is most likely…</p>
             <div id="predictionResults" class="prediction-results" aria-live="polite"></div>
+            <p class="prediction-kicker">Step 6 - Explain the prediction</p>
             <p class="prediction-next-step">Now look back at the last expedition data. Which clues helped the scanner make this guess? Tap a clue label on the chart to add it to the species information.</p>
           </aside>
         </div>
@@ -105,6 +109,7 @@
 
       <section class="species-reference-board" aria-label="Pinned pictures and schema of penguin species">
         <div class="schema-title wall-title">
+          <p class="prediction-kicker">Step 2 - Try to identify penguins' species</p>
           <h2>Species Information</h2>
           <small>These are the clues we know about each penguin species. Match the colours here with the graph to help identify the mystery penguin.</small>
         </div>

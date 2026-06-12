@@ -86,16 +86,16 @@ const speciesIconPath = {
 };
 const mysteryIconPath = "img/icon-mystery.png";
 const reportedIconPath = "img/reported.png";
-const speciesIconSize = { width: 10, height: 14 };
-const mysteryIconSize = { width: 20, height: 28 };
-const speciesIconRightOffset = 10;
-const iconPaddingTop = 1;
-const iconPaddingRight = -2;
+const speciesIconSize = { width: 20, height: 28 };
+const mysteryIconSize = { width: 40, height: 56 };
+const speciesIconRightOffset = 20;
+const iconPaddingTop = 2;
+const iconPaddingRight = -4;
 const speciesIconStackGap = speciesIconSize.width + iconPaddingRight;
 const speciesIconRowGap = speciesIconSize.height + iconPaddingTop;
-const speciesIconMaxStackWidth = 200;
+const speciesIconMaxStackWidth = 400;
 const sexIconMaxColumns = 15;
-const mysteryIconLeftOffset = -10;
+const mysteryIconLeftOffset = -20;
 
 function speciesKey(species) {
   return String(species || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, "");
@@ -115,11 +115,11 @@ const predictionButtonEl = document.querySelector("#predictionButton");
 const predictionSummaryEl = document.querySelector("#predictionSummary");
 const predictionResultsEl = document.querySelector("#predictionResults");
 
-const width = Math.max(820, chartEl.getBoundingClientRect().width);
-// Fixed 1920 x 1080 layout: keep the SVG viewBox tied to the rendered chart width
-// while using a compact chart height that fits the 1080p dashboard.
-const height = 640;
-const margin = { top: 120, right: 0, bottom: 10, left: 0 };
+const width = Math.max(1749, chartEl.getBoundingClientRect().width);
+// Fixed 4096 x 2160 layout: keep the SVG viewBox tied to the rendered chart width
+// while using a scaled chart height that fits the 2160p dashboard.
+const height = 1280;
+const margin = { top: 240, right: 0, bottom: 20, left: 0 };
 const chartWidth = width - margin.left - margin.right;
 const chartHeight = height - margin.top - margin.bottom;
 
@@ -158,8 +158,8 @@ let animatedCaseId = null;
 const predictionFlightDuration = 1350;
 const predictionPanelDelay = 1500;
 const userIconSwapDelay = 2150;
-const closeIconAnimationLimit = 320;
-const nearbyNumericThreshold = 1;
+const closeIconAnimationLimit = 640;
+const nearbyNumericThreshold = 2;
 
 function currentUserIconHref() {
   return displayedUserIconSpecies ? iconForSpecies(displayedUserIconSpecies) : mysteryIconPath;
@@ -477,6 +477,7 @@ function selectExplorerCase(caseId) {
 
   if (isNewCase) {
     clearChartValues();
+    reportedFeaturesByCase = {};
   }
 
   errorEl.textContent = "";
@@ -548,7 +549,7 @@ function resetPredictionOnly() {
   displayedUserIconSpecies = null;
   predictedColor = "#AEB7C2";
   probabilities = Object.fromEntries(speciesList.map(species => [species, 0]));
-  addedNeutralCluesBySpecies = {};
+  // addedNeutralCluesBySpecies = {};
   selectedNeutralClues = new Set();
 }
 
@@ -687,7 +688,7 @@ function updateUserOverlay() {
     .join(
       enter => enter.append("circle")
         .attr("class", "user-point-hit")
-        .attr("r", 18)
+         .attr("r", 36)
         .attr("cx", d => x(d.feature) - mysteryIconLeftOffset - mysteryIconSize.width / 2)
         .attr("cy", d => d.y)
         .call(userPointDrag),
@@ -1001,7 +1002,7 @@ function predictSpecies() {
   predictedSpecies = null;
   displayedUserIconSpecies = null;
   predictedColor = "#AEB7C2";
-  addedNeutralCluesBySpecies = {};
+  // addedNeutralCluesBySpecies = {};
   selectedNeutralClues = new Set();
   updateSpeciesPanel();
   updateUserOverlay();
@@ -1164,7 +1165,7 @@ function drawAxes() {
 
   axes.append("text")
     .attr("class", "axis-title")
-    .attr("y", -90)
+    .attr("y", -120)
     .text(d => prettyUnit[d] ? `${prettyName[d]} (${prettyUnit[d]})` : prettyName[d]);
 
   const reportButtons = axes.append("g")
@@ -1172,7 +1173,7 @@ function drawAxes() {
     .attr("role", "button")
     .attr("tabindex", 0)
     .attr("aria-label", feature => `Click to report the ${prettyName[feature]} value for the selected case`)
-    .attr("transform", "translate(-25,-78)")
+    .attr("transform", "translate(-50,-156)")
     .style("cursor", "pointer")
     .on("click", function (event, feature) {
       event.stopPropagation();
@@ -1188,30 +1189,30 @@ function drawAxes() {
   reportButtons.append("rect")
     .attr("class", "feature-report-hitbox")
     .attr("x", 0)
-    .attr("y", -4)
-    .attr("width", 52)
-    .attr("height", 58)
+    .attr("y", 30)
+    .attr("width", 104)
+    .attr("height", 116)
     .attr("fill", "transparent");
 
   reportButtons.append("image")
     .attr("class", "feature-report-folder-icon")
     .attr("href", "img/folder.png")
-    .attr("width", 26)
-    .attr("height", 26)
-    .attr("x", 11)
-    .attr("y", 0)
+    .attr("width", 52)
+    .attr("height", 52)
+    .attr("x", 22)
+    .attr("y", 40)
     .attr("aria-hidden", "true");
 
   reportButtons.append("text")
     .attr("class", "feature-report-button-text")
-    .attr("x", 2)
-    .attr("y", 38)
+    .attr("x", 4)
+    .attr("y", 105)
     .attr("text-anchor", "middle")
     .selectAll("tspan")
     .data(["click to report", "case value"])
     .join("tspan")
-    .attr("x", 24)
-    .attr("dy", (d, i) => i === 0 ? 0 : 11)
+    .attr("x", 48)
+    .attr("dy", (d, i) => i === 0 ? 0 : 22)
     .text(d => d);
 
   const neutralClueGroups = axes
@@ -1227,7 +1228,7 @@ function drawAxes() {
     .attr("tabindex", 0)
     .attr("aria-label", d => `Add ${d.label} as a clue to the predicted species card`)
     .attr("aria-disabled", "true")
-    .attr("transform", d => `translate(-58,${d.y}) rotate(-90)`)
+    .attr("transform", d => `translate(-116,${d.y}) rotate(-90)`)
     .on("click", function (event, clue) {
       event.stopPropagation();
       addNeutralClueToPredictedSpecies(clue);
@@ -1240,12 +1241,12 @@ function drawAxes() {
     });
 
   neutralClueGroups.append("rect")
-    .attr("x", -53)
-    .attr("y", -13)
-    .attr("width", 106)
-    .attr("height", 26)
-    .attr("rx", 13)
-    .attr("ry", 13);
+    .attr("x", -106)
+    .attr("y", -26)
+    .attr("width", 212)
+    .attr("height", 52)
+    .attr("rx", 26)
+    .attr("ry", 26);
 
   neutralClueGroups.append("text")
     .attr("x", 0)
@@ -1254,10 +1255,10 @@ function drawAxes() {
 
   axes.append("rect")
     .attr("class", "axis-touch-target")
-    .attr("x", -42)
-    .attr("y", -8)
-    .attr("width", 84)
-    .attr("height", chartHeight + 16)
+    .attr("x", -84)
+    .attr("y", -16)
+    .attr("width", 168)
+    .attr("height", chartHeight + 32)
     .attr("role", "button")
     .attr("tabindex", 0)
     .on("pointerdown", fillValueFromAxis)
@@ -1286,8 +1287,8 @@ function drawAxes() {
 function availableStackWidthForFeature(feature, featureIndex) {
   const axisX = x(feature);
   const nextFeature = orderedFeatures[featureIndex + 1];
-  const nextAxisX = nextFeature ? x(nextFeature) : chartWidth + 120;
-  return Math.max(400, Math.min(speciesIconMaxStackWidth, nextAxisX - axisX - speciesIconRightOffset - 28));
+  const nextAxisX = nextFeature ? x(nextFeature) : chartWidth + 240;
+  return Math.max(800, Math.min(speciesIconMaxStackWidth, nextAxisX - axisX - speciesIconRightOffset - 56));
 }
 
 function stackColumnsForFeature(feature, featureIndex) {
@@ -1422,7 +1423,7 @@ function draw(data) {
   buildScales();
   x = d3.scalePoint()
     .domain(orderedFeatures)
-    .range([0, chartWidth - 20])
+    .range([0, chartWidth - 40])
     .padding(0.02);
 
   resetPredictionOnly();
